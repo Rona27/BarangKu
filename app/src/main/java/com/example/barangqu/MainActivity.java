@@ -2,14 +2,13 @@ package com.example.barangqu;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.SharedMemory;
 import android.widget.Button;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-
-    TextView coba;
-    Button bCoba;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
