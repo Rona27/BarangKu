@@ -1,34 +1,42 @@
 {
   "project_info": {
-    "project_number": "173250241821",
-    "firebase_url": "https://barangku-rafn.firebaseio.com",
-    "project_id": "barangku-rafn",
-    "storage_bucket": "barangku-rafn.appspot.com"
+    "project_number": "676124080585",
+    "firebase_url": "https://barang-ku-8ec2f.firebaseio.com",
+    "project_id": "barang-ku-8ec2f",
+    "storage_bucket": "barang-ku-8ec2f.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:173250241821:android:95c42a1f7aedcb6e096df4",
+        "mobilesdk_app_id": "1:676124080585:android:0825c6ccefe1275bbb1018",
         "android_client_info": {
           "package_name": "com.example.barangqu"
         }
       },
       "oauth_client": [
         {
-          "client_id": "173250241821-n8lk1lpme64vujs0g19e9jjoklobrstj.apps.googleusercontent.com",
+          "client_id": "676124080585-hhrnc4noiu07bl9f4ub3qamv3pprjkjg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.barangqu",
+            "certificate_hash": "eca8e6cd59f01cca2b8eaefedb3814dda4e7a8c6"
+          }
+        },
+        {
+          "client_id": "676124080585-7qqcfeh4e1ucprsco40l03ik0hp3a761.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBkr6JZMQCNqaO8HZSox5np9TE251yh6dk"
+          "current_key": "AIzaSyBT91QLYyZ6eKzA-o-fkJ9qo9gcdk22pAM"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "173250241821-n8lk1lpme64vujs0g19e9jjoklobrstj.apps.googleusercontent.com",
+              "client_id": "676124080585-7qqcfeh4e1ucprsco40l03ik0hp3a761.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
