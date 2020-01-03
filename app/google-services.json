@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "173250241821",
+    "firebase_url": "https://barangku-rafn.firebaseio.com",
+    "project_id": "barangku-rafn",
+    "storage_bucket": "barangku-rafn.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:173250241821:android:95c42a1f7aedcb6e096df4",
+        "android_client_info": {
+          "package_name": "com.example.barangqu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "173250241821-n8lk1lpme64vujs0g19e9jjoklobrstj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkr6JZMQCNqaO8HZSox5np9TE251yh6dk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "173250241821-n8lk1lpme64vujs0g19e9jjoklobrstj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
