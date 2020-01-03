@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">BarangQu</string>
+    <string name="login">LOGIN</string>
+    <string name="daftar">DAFTAR</string>
 </resources>

@@ -8,6 +8,8 @@ import android.os.SharedMemory;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.barangqu.R;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
