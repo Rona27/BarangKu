@@ -84,10 +84,8 @@ public class RegisterActivity extends AppCompatActivity {
 
                                 if (task.isSuccessful()){
 
-                                    FirebaseUser user = auth.getCurrentUser();
-                                    Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                                    startActivity(intent);
-                                    finish();
+                                    addUserToDatabase(email, password, nim, nama);
+                                    startActivity(new Intent(RegisterActivity.this, MainActivity.class));
 
                                 }
                                 else {
@@ -106,15 +104,16 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    private void addUserToDatabase(String email, String nim, String nama){
+    private void addUserToDatabase(String email,String password, String nim, String nama){
 
         User user = new User();
 
         user.setEmail(email);
+        user.setPassword(password);
         user.setNim(nim);
         user.setNama(nama);
 
-        FirebaseDatabase.getInstance().getReference("Users").push().setValue(user);
+        FirebaseDatabase.getInstance().getReference("users").push().setValue(user);
 
     }
 

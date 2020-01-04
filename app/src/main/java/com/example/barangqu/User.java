@@ -2,15 +2,14 @@ package com.example.barangqu;
 
 public class User {
 
-    private String nim;
-    private String nama;
-    private String email;
+    String nim;
+    String nama;
+    String email;
+    String password;
 
-    public User(String nim, String nama, String email) {
-        this.setNim(nim);
-        this.setNama(nama);
-        this.setEmail(email);
-    }
+
+
+
 
     public User() {
 
@@ -21,8 +20,16 @@ public class User {
         return nim;
     }
 
+    public String getPassword(){
+        return password;
+    }
+
     public void setNim(String nim) {
         this.nim = nim;
+    }
+
+    public void setPassword(String password){
+        this.password = password;
     }
 
     public String getNama() {
