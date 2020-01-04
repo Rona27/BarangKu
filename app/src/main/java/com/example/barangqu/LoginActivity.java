@@ -23,18 +23,18 @@ import com.google.firebase.auth.FirebaseAuth;
 public class LoginActivity extends AppCompatActivity {
 
      private EditText edtEmail, edtPassword;
-     private FirebaseAuth logAuth;
+     private FirebaseAuth auth;
      private ProgressBar logProgres;
-     private Button btnLogin, btnDaftar;
+     private Button btnLogin, btnDaftar, btnReset;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         //get firebase auth instance
-        logAuth = FirebaseAuth.getInstance();
+        auth = FirebaseAuth.getInstance();
 
-        if (logAuth.getCurrentUser() != null) {
+        if (auth.getCurrentUser() != null) {
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
         }
@@ -48,8 +48,9 @@ public class LoginActivity extends AppCompatActivity {
         logProgres =(ProgressBar) findViewById(R.id.progressBar);
         btnLogin = (Button) findViewById(R.id.btn_login);
         btnDaftar = (Button) findViewById(R.id.btn_daftar);
+        btnReset = findViewById(R.id.btn_reset);
 
-        logAuth = FirebaseAuth.getInstance();
+        auth = FirebaseAuth.getInstance();
 
         //intent ke daftar
 
@@ -57,6 +58,14 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+                finish();
+            }
+        });
+
+        btnReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, ForgotPaswordActivity.class));
                 finish();
             }
         });
@@ -79,14 +88,14 @@ public class LoginActivity extends AppCompatActivity {
                 logProgres.setVisibility(View.VISIBLE);
 
                 //autentikasi user
-                logAuth.signInWithEmailAndPassword(email, password)
+                auth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 logProgres.setVisibility(View.GONE);
                                 if (task.isSuccessful()){
-                                    Intent logIntent = new Intent(LoginActivity.this, MainActivity.class);
-                                    startActivity(logIntent);
+
+                                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                     finish();
                                 }
                                 else {
@@ -103,5 +112,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     }
+
+
 
 }

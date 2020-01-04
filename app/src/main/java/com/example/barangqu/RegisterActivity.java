@@ -55,8 +55,8 @@ public class RegisterActivity extends AppCompatActivity {
 
                 final String email = edtEmail.getText().toString().trim();
                 final String password = edtPassword.getText().toString().trim();
-                final String nim = edtNim.getText().toString().trim();
-                final String nama = edtNama.getText().toString().trim();
+//                final String nim = edtNim.getText().toString().trim();
+//                final String nama = edtNama.getText().toString().trim();
 
                 if (TextUtils.isEmpty(email)) {
                     Toast.makeText(getApplicationContext(), "Masukan Alamat email anda", Toast.LENGTH_SHORT).show();
@@ -84,7 +84,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                                 if (task.isSuccessful()){
 
-                                    addUserToDatabase(email, password, nim, nama);
+//                                    addUserToDatabase(email, password, nim, nama);
                                     startActivity(new Intent(RegisterActivity.this, MainActivity.class));
 
                                 }
@@ -104,18 +104,18 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    private void addUserToDatabase(String email,String password, String nim, String nama){
-
-        User user = new User();
-
-        user.setEmail(email);
-        user.setPassword(password);
-        user.setNim(nim);
-        user.setNama(nama);
-
-        FirebaseDatabase.getInstance().getReference("users").push().setValue(user);
-
-    }
+//    private void addUserToDatabase(String email,String password, String nim, String nama){
+//
+//        User user = new User();
+//
+//        user.setEmail(email);
+//        user.setPassword(password);
+//        user.setNim(nim);
+//        user.setNama(nama);
+//
+//        FirebaseDatabase.getInstance().getReference("users").push().setValue(user);
+//
+//    }
 
     protected void onResume(){
         super.onResume();
