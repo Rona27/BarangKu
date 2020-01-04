@@ -2,4 +2,6 @@
     <string name="app_name">BarangQu</string>
     <string name="login">LOGIN</string>
     <string name="daftar">DAFTAR</string>
+    <string name="minimum_password">Password terlalu pendek, masukan minimal 6 karakter</string>
+    <string name="auth_gagal">Authentikasi Gagal, Periksa Email dan Passwordmu</string>
 </resources>
