@@ -22,7 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private EditText edtNim, edtNama, edtEmail, edtPassword;
+    private EditText  edtEmail, edtPassword;
     private Button btnLogin, btnDaftar;
     private ProgressBar progressBar;
     private FirebaseAuth auth;
@@ -34,8 +34,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
 
-        edtNim = findViewById(R.id.edt_nim);
-        edtNama = findViewById(R.id.edt_nama);
+
         edtEmail= findViewById(R.id.edt_email);
         edtPassword= findViewById(R.id.edt_password);
         btnLogin = findViewById(R.id.btn_login);
