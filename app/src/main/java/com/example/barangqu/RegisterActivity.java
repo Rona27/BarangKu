@@ -35,6 +35,7 @@ public class RegisterActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
 
 
+
         edtEmail= findViewById(R.id.edt_email);
         edtPassword= findViewById(R.id.edt_password);
         btnLogin = findViewById(R.id.btn_login);
@@ -78,7 +79,7 @@ public class RegisterActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
 
-                                Toast.makeText(RegisterActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RegisterActivity.this, "Mendaftar aku telah berhasil :" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
                                 progressBar.setVisibility(View.GONE);
 
                                 if (task.isSuccessful()){

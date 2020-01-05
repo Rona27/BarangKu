@@ -39,7 +39,7 @@ public class CompleteProfilActitvity extends AppCompatActivity implements View.O
 
     private static String TAG = CompleteProfilActitvity.class.getSimpleName();
     Button btnsave;
-    private FirebaseAuth firebaseAuth;
+    private FirebaseAuth auth;
     private DatabaseReference databaseReference;
     private EditText edtNim, edtNama;
     private TextView tvEmail;
@@ -72,8 +72,8 @@ public class CompleteProfilActitvity extends AppCompatActivity implements View.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_complete_profil_actitvity);
 
-        firebaseAuth= FirebaseAuth.getInstance();
-        if (firebaseAuth.getCurrentUser() == null){
+        auth= FirebaseAuth.getInstance();
+        if (auth.getCurrentUser() == null){
             finish();
             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
         }
@@ -82,7 +82,7 @@ public class CompleteProfilActitvity extends AppCompatActivity implements View.O
         edtNim = findViewById(R.id.edt_nim);
         edtNama = findViewById(R.id.edt_nama);
         btnsave = findViewById(R.id.btn_save);
-        FirebaseUser user = firebaseAuth.getCurrentUser();
+        FirebaseUser user = auth.getCurrentUser();
         btnsave.setOnClickListener(this);
         tvEmail = findViewById(R.id.tv_email);
         tvEmail.setText(user.getEmail());
@@ -105,7 +105,7 @@ public class CompleteProfilActitvity extends AppCompatActivity implements View.O
         String nim = edtNim.getText().toString().trim();
         String nama = edtNama.getText().toString().trim();
         UserInformation userinformation = new UserInformation(nim, nama);
-        FirebaseUser user = firebaseAuth.getCurrentUser();
+        FirebaseUser user = auth.getCurrentUser();
         databaseReference.child(user.getUid()).setValue(userinformation);
         Toast.makeText(getApplicationContext(), "Informasi Profil telah ditambahkan", Toast.LENGTH_LONG).show();
     }
@@ -145,8 +145,8 @@ public class CompleteProfilActitvity extends AppCompatActivity implements View.O
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         //Get "User UID" fromfirebase > Authentication > Users
-        DatabaseReference databaseReference = firebaseDatabase.getReference(firebaseAuth.getUid());
-        StorageReference imagereference = storageReference.child(firebaseAuth.getUid()).child("Images").child("Profil pic");
+        DatabaseReference databaseReference = firebaseDatabase.getReference(auth.getUid());
+        StorageReference imagereference = storageReference.child(auth.getUid()).child("Images").child("Profil pic");
         UploadTask uploadTask = imagereference.putFile(imagePath);
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
@@ -174,7 +174,7 @@ public class CompleteProfilActitvity extends AppCompatActivity implements View.O
         title.setTextSize(20);
         alertDialog.setCustomTitle(title);
         TextView msg = new TextView(this);
-        msg.setText("Please select a profile picture \n Tap the sample user logo");
+        msg.setText("Silahkan pilih Foto profil anda \n Klik logo profil untuk memilih");
         msg.setGravity(Gravity.CENTER_HORIZONTAL);
         msg.setTextColor(Color.BLACK);
         alertDialog.setView(msg);

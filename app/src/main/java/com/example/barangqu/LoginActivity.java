@@ -93,19 +93,21 @@ public class LoginActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 logProgres.setVisibility(View.GONE);
-                                if (task.isSuccessful()){
+                                if (!task.isSuccessful()) {
+                                    if (password.length() < 6) {
+                                       Toast.makeText(getApplicationContext(), "Password minimum 6 digit", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(getApplicationContext(),"Erorr", Toast.LENGTH_SHORT).show();
+                                    }
 
-                                    startActivity(new Intent(LoginActivity.this, HomeActivity.class));
-                                    finish();
+
                                 }
                                 else {
-                                    if (password.length() < 6){
-                                        edtPassword.setError(getString(R.string.minimum_password));
-                                    } else {
-                                        Toast.makeText(LoginActivity.this, getString(R.string.auth_gagal), Toast.LENGTH_SHORT).show();
+                                        startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                                        finish();
                                     }
                                 }
-                            }
+
                         });
             }
         });

@@ -17,12 +17,12 @@
         android:title="ACCOUNT"
         app:showAsAction = "ifRoom"
         />
-    <item
-        android:id = "@+id/action_logout"
-        android:enabled = "true"
-        android:icon="@drawable/ic_close_black_24dp"
-        android:title="LOGOUT"
-        app:showAsAction = "ifRoom"
-        />
+<!--    <item-->
+<!--        android:id = "@+id/action_logout"-->
+<!--        android:enabled = "true"-->
+<!--        android:icon="@drawable/ic_close_black_24dp"-->
+<!--        android:title="LOGOUT"-->
+<!--        app:showAsAction = "ifRoom"-->
+<!--        />-->
 
 </menu>
