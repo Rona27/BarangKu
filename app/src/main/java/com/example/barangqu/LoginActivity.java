@@ -35,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
 
         if (auth.getCurrentUser() != null) {
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
             finish();
         }
         setContentView(R.layout.activity_login);
@@ -95,7 +95,7 @@ public class LoginActivity extends AppCompatActivity {
                                 logProgres.setVisibility(View.GONE);
                                 if (task.isSuccessful()){
 
-                                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                    startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                                     finish();
                                 }
                                 else {

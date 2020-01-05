@@ -12,7 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ForgotPaswordActivity"></activity>
+        <activity android:name=".HomeActivity"></activity>
+        <activity android:name=".CompleteProfilActitvity" />
+        <activity android:name=".ForgotPaswordActivity" />
         <activity android:name=".Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -85,7 +85,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 if (task.isSuccessful()){
 
 //                                    addUserToDatabase(email, password, nim, nama);
-                                    startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                                    startActivity(new Intent(RegisterActivity.this, CompleteProfilActitvity.class));
 
                                 }
                                 else {
