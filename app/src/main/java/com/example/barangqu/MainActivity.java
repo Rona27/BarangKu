@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,34 +46,35 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseStorage firebaseStorage;
     private TextView tvEmail;
     private EditText edtNama;
+    ImageButton btnBackHome;
+    ImageButton btnLogout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        btnBackHome = findViewById(R.id.btn_back_home);
+        btnBackHome.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-                switch (item.getItemId()) {
-                    case R.id.action_home:
-                        Intent akunInten = new Intent(MainActivity.this, HomeActivity.class);
-                        startActivity(akunInten);
-                        break;
-
-                    case R.id.action_account:
-                        Toast.makeText(getApplicationContext(), "Profil", Toast.LENGTH_SHORT).show();
-                        break;
-
-                }
-
-                return true;
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, HomeActivity.class));
+                finish();
             }
         });
+
+        btnLogout = findViewById(R.id.btn_logout);
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                FirebaseAuth.getInstance().signOut();
+                Intent inent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(inent);
+
+            }
+        });
+
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
         edtNama = findViewById(R.id.edt_nama);
@@ -141,12 +143,13 @@ public class MainActivity extends AppCompatActivity {
         alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String name = tvNama.getText().toString();
-                UserInformation userInformation = new UserInformation();
+                String nim = tvNim.getText().toString();
+                String name = edtNama.getText().toString();
+                UserInformation userInformation = new UserInformation(nim, name);
                 FirebaseUser user = auth.getCurrentUser();
                 databaseReference.child(user.getUid()).setValue(userInformation);
                 databaseReference.child(user.getUid()).setValue(userInformation);
-                tvNama.onEditorAction(EditorInfo.IME_ACTION_DONE);
+                edtNama.onEditorAction(EditorInfo.IME_ACTION_DONE);
             }
         });
 
@@ -154,10 +157,9 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    public void logout(View view) {
-        FirebaseAuth.getInstance().signOut();
-        Intent inent = new Intent(this, LoginActivity.class);
-        startActivity(inent);
-    }
+//    public void logout(View view) {
+//
+//    }
+
 }
 
