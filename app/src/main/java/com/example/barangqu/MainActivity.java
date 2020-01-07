@@ -22,6 +22,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.barangqu.R;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,19 +40,22 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
 
     private DatabaseReference databaseReference;
     private TextView tvNim, tvNama;
     private FirebaseAuth auth;
     private FirebaseDatabase firebaseDatabase;
+    private FirebaseAuth.AuthStateListener authStateListener;
     private ImageView imgProfil;
     private FirebaseStorage firebaseStorage;
     private TextView tvEmail;
     private EditText edtNama;
     ImageButton btnBackHome;
-    ImageButton btnLogout;
+
+
+    private GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,17 +71,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btnLogout = findViewById(R.id.btn_logout);
-        btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        auth = FirebaseAuth.getInstance();
+        //metdod logout
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
+                .addApi(Auth.GOOGLE_SIGN_IN_API)
+                .build();{
 
-                FirebaseAuth.getInstance().signOut();
-                Intent inent = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(inent);
+        }
 
-            }
-        });
 
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -84,11 +90,13 @@ public class MainActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
-        DatabaseReference databaseReference = firebaseDatabase.getReference(auth.getUid());
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+
+//        databaseReference.child("User").child(auth.getUid()).addValueEventListener();
         StorageReference storageReference = firebaseStorage.getReference();
         // Get the image stored on Firebase via "User id/Images/Profile Pic.jpg".
 
-        storageReference.child(auth.getUid()).child("Images").child("Profil pic").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        storageReference.child("ImagesUser").child(auth.getUid()).child("Profil pic").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 // Using "Picasso" (http://square.github.io/picasso/) after adding the dependency in the Gradle.
@@ -104,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         final FirebaseUser user= auth.getCurrentUser();
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        databaseReference.child("User").child(auth.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 UserInformation userProfile = dataSnapshot.getValue(UserInformation.class);
@@ -130,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
         View alertLayout = inflater.inflate(R.layout.layout_custom_edit_nama, null);
         final EditText edtNama = alertLayout.findViewById(R.id.edt_nama);
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("Name edit");
+        alert.setTitle("Nama edit");
 
         alert.setView(alertLayout);
         alert.setCancelable(false);
@@ -147,8 +155,8 @@ public class MainActivity extends AppCompatActivity {
                 String name = edtNama.getText().toString();
                 UserInformation userInformation = new UserInformation(nim, name);
                 FirebaseUser user = auth.getCurrentUser();
-                databaseReference.child(user.getUid()).setValue(userInformation);
-                databaseReference.child(user.getUid()).setValue(userInformation);
+                databaseReference.child("User").child(user.getUid()).setValue(userInformation);
+                databaseReference.child("User").child(user.getUid()).setValue(userInformation);
                 edtNama.onEditorAction(EditorInfo.IME_ACTION_DONE);
             }
         });
@@ -157,9 +165,28 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
     }
 
-//    public void logout(View view) {
-//
-//    }
+    public void logout(View view) {
 
+//        FirebaseAuth.getInstance().signOut();
+//        Intent inent = new Intent(MainActivity.this, LoginActivity.class);
+//        startActivity(inent);
+
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(@NonNull Status status) {
+                        FirebaseAuth.getInstance().signOut();
+                        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                        finish();
+                    }
+                }
+        );
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
 }
 

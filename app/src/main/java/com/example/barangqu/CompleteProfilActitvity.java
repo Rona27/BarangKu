@@ -106,7 +106,7 @@ public class CompleteProfilActitvity extends AppCompatActivity implements View.O
         String nama = edtNama.getText().toString().trim();
         UserInformation userinformation = new UserInformation(nim, nama);
         FirebaseUser user = auth.getCurrentUser();
-        databaseReference.child(user.getUid()).setValue(userinformation);
+        databaseReference.child("User").child(user.getUid()).setValue(userinformation);
         Toast.makeText(getApplicationContext(), "Informasi Profil telah ditambahkan", Toast.LENGTH_LONG).show();
     }
 
@@ -146,7 +146,7 @@ public class CompleteProfilActitvity extends AppCompatActivity implements View.O
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         //Get "User UID" fromfirebase > Authentication > Users
         DatabaseReference databaseReference = firebaseDatabase.getReference(auth.getUid());
-        StorageReference imagereference = storageReference.child(auth.getUid()).child("Images").child("Profil pic");
+        StorageReference imagereference = storageReference.child("ImagesUser").child(auth.getUid()).child("Profil pic");
         UploadTask uploadTask = imagereference.putFile(imagePath);
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override

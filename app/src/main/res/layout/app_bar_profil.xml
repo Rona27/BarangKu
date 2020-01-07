@@ -25,7 +25,8 @@
         android:layout_height="match_parent"
         android:src="@drawable/ic_close_black_24dp"
         android:layout_gravity="right"
-        android:background="@color/colorPurple"/>
+        android:background="@color/colorPurple"
+        android:onClick="logout"/>
 
 
 </androidx.appcompat.widget.Toolbar>
