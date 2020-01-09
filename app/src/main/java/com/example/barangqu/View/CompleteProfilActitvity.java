@@ -1,22 +1,12 @@
-package com.example.barangqu;
+package com.example.barangqu.View;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
-import android.Manifest;
-import android.app.ActionBar;
 import android.app.Dialog;
-import android.app.ProgressDialog;
-import android.app.TaskStackBuilder;
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -24,63 +14,44 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.text.TextUtils;
-import android.util.EventLogTags;
 import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.barangqu.Model.PostInformation;
-import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.OnCompleteListener;
+import com.example.barangqu.Model.UserInformation;
+import com.example.barangqu.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
-import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Queue;
 
-public class InsertContentActivity extends AppCompatActivity implements View.OnClickListener {
+public class CompleteProfilActitvity extends AppCompatActivity implements View.OnClickListener {
 
     private static String TAG = CompleteProfilActitvity.class.getSimpleName();
+    Button btnsave;
     private FirebaseAuth auth;
     private DatabaseReference databaseReference;
-    private ImageView imgPost;
-    private EditText edtNamaBarang, edtTgl, edtDeskrip;
-    private Button btnPost;
+    private EditText edtNim, edtNama;
+    private TextView tvEmail;
+    private ImageView imgProfil;
     private FirebaseStorage firebaseStorage;
     private static int PICK_IMAGE = 123;
     Uri imagePath;
-
     private StorageReference storageReference;
 
-    public InsertContentActivity(){
+    public CompleteProfilActitvity(){
 
     }
 
@@ -89,7 +60,7 @@ public class InsertContentActivity extends AppCompatActivity implements View.OnC
             imagePath = data.getData();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imagePath);
-                imgPost.setImageBitmap(bitmap);
+                imgProfil.setImageBitmap(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -101,7 +72,7 @@ public class InsertContentActivity extends AppCompatActivity implements View.OnC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_insert_content);
+        setContentView(R.layout.activity_complete_profil_actitvity);
 
         auth= FirebaseAuth.getInstance();
         if (auth.getCurrentUser() == null){
@@ -110,103 +81,95 @@ public class InsertContentActivity extends AppCompatActivity implements View.OnC
         }
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
-        edtNamaBarang = findViewById(R.id.edt_nama_barang);
-        edtDeskrip = findViewById(R.id.edt_deskrip);
-        btnPost = findViewById(R.id.btn_post);
+        edtNim = findViewById(R.id.edt_nim);
+        edtNama = findViewById(R.id.edt_nama);
+        btnsave = findViewById(R.id.btn_save);
         FirebaseUser user = auth.getCurrentUser();
-        btnPost.setOnClickListener(this);
-        imgPost = findViewById(R.id.img_barang);
+        btnsave.setOnClickListener(this);
+        tvEmail = findViewById(R.id.tv_email);
+        tvEmail.setText(user.getEmail());
+        imgProfil = findViewById(R.id.img_profil);
         firebaseStorage = FirebaseStorage.getInstance();
         storageReference = firebaseStorage.getReference();
 
-        imgPost.setOnClickListener(new View.OnClickListener() {
+        imgProfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent postImage = new Intent();
-                postImage.setType("image/*");
-                postImage.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(postImage, "Pilih gambar."), PICK_IMAGE);
+                Intent profilIntent = new Intent();
+                profilIntent.setType("image/*");
+                profilIntent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(profilIntent, "Pilih gambar."), PICK_IMAGE);
             }
         });
-
-
-        //Intent back to profil
-        ImageButton btnProfil = findViewById(R.id.btn_profil);
-
-        btnProfil.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(InsertContentActivity.this, MainActivity.class));
-                finish();
-            }
-        });
-
     }
 
-    private void postInformation(){
-        String namaBarang = edtNamaBarang.getText().toString().trim();
-        String deskripsi = edtDeskrip.getText().toString().trim();
-        PostInformation postInformation = new PostInformation(namaBarang,deskripsi);
+    private void userInformation(){
+        String nim = edtNim.getText().toString().trim();
+        String nama = edtNama.getText().toString().trim();
+        UserInformation userinformation = new UserInformation(nim, nama);
         FirebaseUser user = auth.getCurrentUser();
-        databaseReference.child("Post").child(user.getUid()).setValue(postInformation);
-        Toast.makeText(getApplicationContext(), "Informasi Post telah ditambahkan", Toast.LENGTH_LONG).show();
+        databaseReference.child("User").child(user.getUid()).setValue(userinformation);
+        Toast.makeText(getApplicationContext(), "Informasi Profil telah ditambahkan", Toast.LENGTH_LONG).show();
     }
 
     @Override
-    public void onClick(View v) {
-
-        if (v==btnPost){
+    public void onClick(View view) {
+        if (view==btnsave ) {
             if (imagePath == null) {
-                Toast.makeText(InsertContentActivity.this, "Berhasil Upload foto profil", Toast.LENGTH_SHORT).show();
+
+                Toast.makeText(CompleteProfilActitvity.this, "Berhasil Upload foto profil", Toast.LENGTH_SHORT).show();
 
                 Drawable drawable = this.getResources().getDrawable(R.drawable.ic_boy);
                 Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_boy);
 
-
-                postInformation();
+                //membuka
+//                openSelectedProfilPicturedialod();
+                userInformation();
 
 
                 finish();
-                startActivity(new Intent(InsertContentActivity.this, MainActivity.class));
+                startActivity(new Intent(CompleteProfilActitvity.this, HomeActivity.class));
             }
+
             else {
 
-                postInformation();
-                sendPostData();
+
+                userInformation();
+                sendUserData();
                 finish();
-                startActivity(new Intent(InsertContentActivity.this, MainActivity.class));
+                startActivity(new Intent(CompleteProfilActitvity.this, HomeActivity.class));
 
             }
         }
-
     }
 
-    private void sendPostData() {
+    private void sendUserData() {
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         //Get "User UID" fromfirebase > Authentication > Users
         DatabaseReference databaseReference = firebaseDatabase.getReference(auth.getUid());
-        StorageReference imagereference = storageReference.child("ImagesPost").child(auth.getUid()).child("Post pic");
+        StorageReference imagereference = storageReference.child("ImagesUser").child(auth.getUid()).child("Profil pic");
         UploadTask uploadTask = imagereference.putFile(imagePath);
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(InsertContentActivity.this, "Error : Upload foto Post", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CompleteProfilActitvity.this, "Error : Upload foto Profil", Toast.LENGTH_SHORT).show();
             }
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Toast.makeText(InsertContentActivity.this, "Berhasil Upload foto Post", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CompleteProfilActitvity.this, "Berhasil Upload foto profil", Toast.LENGTH_SHORT).show();
             }
         });
+
 
     }
 
     public void openSelectedProfilPicturedialod(){
 
-        androidx.appcompat.app.AlertDialog alertDialog = new androidx.appcompat.app.AlertDialog.Builder(this).create();
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
         TextView title = new TextView(this);
-        title.setText("Post Picture");
+        title.setText("Profil Picture");
         title.setPadding(10, 10, 10, 10);
         title.setGravity(Gravity.CENTER);
         title.setTextColor(Color.BLACK);
@@ -217,7 +180,7 @@ public class InsertContentActivity extends AppCompatActivity implements View.OnC
         msg.setGravity(Gravity.CENTER_HORIZONTAL);
         msg.setTextColor(Color.BLACK);
         alertDialog.setView(msg);
-        alertDialog.setButton(androidx.appcompat.app.AlertDialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener() {
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
@@ -234,4 +197,6 @@ public class InsertContentActivity extends AppCompatActivity implements View.OnC
         okBT.setLayoutParams(neutralBtnLP);
 
     }
+
+
 }

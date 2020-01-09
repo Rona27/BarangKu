@@ -23,7 +23,7 @@
         android:id="@+id/btn_logout"
         android:layout_width="50dp"
         android:layout_height="match_parent"
-        android:src="@drawable/ic_close_black_24dp"
+        android:src="@drawable/ic_logout"
         android:layout_gravity="right"
         android:background="@color/colorPurple"
         android:onClick="logout"/>

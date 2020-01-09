@@ -10,7 +10,7 @@
     android:layout_marginEnd="20dp"
     android:layout_marginRight="20dp"
     android:gravity="center"
-    tools:context=".ForgotPaswordActivity">
+    tools:context=".View.ForgotPaswordActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

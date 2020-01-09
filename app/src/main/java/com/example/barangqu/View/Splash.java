@@ -1,10 +1,12 @@
-package com.example.barangqu;
+package com.example.barangqu.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+
+import com.example.barangqu.R;
 
 public class Splash extends AppCompatActivity {
 

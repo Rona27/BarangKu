@@ -5,7 +5,7 @@
     android:background="@color/colorPurple">
 
     <ImageButton
-        android:id="@+id/btn_profil"
+        android:id="@+id/btn_backprofil"
         android:layout_width="50dp"
         android:layout_height="match_parent"
         android:src="@drawable/ic_account_circle_black_24dp"
@@ -15,7 +15,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="UPLOAD BARANG "
+        android:text="BARANG YANG SAYA TEMUKAN"
         android:textStyle="bold"
         android:textSize="18dp"/>
 

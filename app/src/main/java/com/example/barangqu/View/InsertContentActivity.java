@@ -1,8 +1,10 @@
-package com.example.barangqu;
+package com.example.barangqu.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.Calendar;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -18,12 +20,14 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.barangqu.Model.UserInformation;
+import com.example.barangqu.Model.PostInformation;
+import com.example.barangqu.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,22 +39,23 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
+import java.util.Date;
 
-public class CompleteProfilActitvity extends AppCompatActivity implements View.OnClickListener {
+public class InsertContentActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static String TAG = CompleteProfilActitvity.class.getSimpleName();
-    Button btnsave;
     private FirebaseAuth auth;
     private DatabaseReference databaseReference;
-    private EditText edtNim, edtNama;
-    private TextView tvEmail;
-    private ImageView imgProfil;
+    private ImageView imgPost;
+    private EditText edtNamaBarang, edtTgl, edtDeskrip;
+    private Button btnPost;
     private FirebaseStorage firebaseStorage;
     private static int PICK_IMAGE = 123;
     Uri imagePath;
+
     private StorageReference storageReference;
 
-    public CompleteProfilActitvity(){
+    public InsertContentActivity(){
 
     }
 
@@ -59,7 +64,7 @@ public class CompleteProfilActitvity extends AppCompatActivity implements View.O
             imagePath = data.getData();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imagePath);
-                imgProfil.setImageBitmap(bitmap);
+                imgPost.setImageBitmap(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -71,7 +76,7 @@ public class CompleteProfilActitvity extends AppCompatActivity implements View.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_complete_profil_actitvity);
+        setContentView(R.layout.activity_insert_content);
 
         auth= FirebaseAuth.getInstance();
         if (auth.getCurrentUser() == null){
@@ -80,95 +85,110 @@ public class CompleteProfilActitvity extends AppCompatActivity implements View.O
         }
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
-        edtNim = findViewById(R.id.edt_nim);
-        edtNama = findViewById(R.id.edt_nama);
-        btnsave = findViewById(R.id.btn_save);
+        edtNamaBarang = findViewById(R.id.edt_nama_barang);
+        edtDeskrip = findViewById(R.id.edt_deskrip);
+        btnPost = findViewById(R.id.btn_post);
         FirebaseUser user = auth.getCurrentUser();
-        btnsave.setOnClickListener(this);
-        tvEmail = findViewById(R.id.tv_email);
-        tvEmail.setText(user.getEmail());
-        imgProfil = findViewById(R.id.img_profil);
+        btnPost.setOnClickListener(this);
+        imgPost = findViewById(R.id.img_barang);
         firebaseStorage = FirebaseStorage.getInstance();
         storageReference = firebaseStorage.getReference();
 
-        imgProfil.setOnClickListener(new View.OnClickListener() {
+        imgPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent profilIntent = new Intent();
-                profilIntent.setType("image/*");
-                profilIntent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(profilIntent, "Pilih gambar."), PICK_IMAGE);
+                Intent postImage = new Intent();
+                postImage.setType("image/*");
+                postImage.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(postImage, "Pilih gambar."), PICK_IMAGE);
             }
         });
+
+
+        //Intent back to profil
+        ImageButton btnProfil = findViewById(R.id.btn_profil);
+
+        btnProfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(InsertContentActivity.this, MainActivity.class));
+                finish();
+            }
+        });
+
     }
 
-    private void userInformation(){
-        String nim = edtNim.getText().toString().trim();
-        String nama = edtNama.getText().toString().trim();
-        UserInformation userinformation = new UserInformation(nim, nama);
+    private void postInformation(){
+
+//        Date date = new Date();
+//        String strDateFormat = "hh:mm:ss a";
+//        DateFormat dateFormat = new SimpleDateFormat(strDateFormat);
+//        String formattedDate= dateFormat.format(date);
+
+        String namaBarang = edtNamaBarang.getText().toString().trim();
+        String deskripsi = edtDeskrip.getText().toString().trim();
+        Date currentTime = Calendar.getInstance().getTime();
+        PostInformation postInformation = new PostInformation(currentTime,namaBarang,deskripsi);
         FirebaseUser user = auth.getCurrentUser();
-        databaseReference.child("User").child(user.getUid()).setValue(userinformation);
-        Toast.makeText(getApplicationContext(), "Informasi Profil telah ditambahkan", Toast.LENGTH_LONG).show();
+        databaseReference.child("Post").child(user.getUid()).setValue(postInformation);
+        Toast.makeText(getApplicationContext(), "Informasi Post telah ditambahkan", Toast.LENGTH_LONG).show();
     }
 
     @Override
-    public void onClick(View view) {
-        if (view==btnsave ) {
-            if (imagePath == null) {
+    public void onClick(View v) {
 
-                Toast.makeText(CompleteProfilActitvity.this, "Berhasil Upload foto profil", Toast.LENGTH_SHORT).show();
+        if (v==btnPost){
+            if (imagePath == null) {
+                Toast.makeText(InsertContentActivity.this, "Berhasil Upload foto profil", Toast.LENGTH_SHORT).show();
 
                 Drawable drawable = this.getResources().getDrawable(R.drawable.ic_boy);
                 Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_boy);
 
-                //membuka
-//                openSelectedProfilPicturedialod();
-                userInformation();
+
+                postInformation();
 
 
                 finish();
-                startActivity(new Intent(CompleteProfilActitvity.this, HomeActivity.class));
+                startActivity(new Intent(InsertContentActivity.this, MainActivity.class));
             }
-
             else {
 
-
-                userInformation();
-                sendUserData();
+                postInformation();
+                sendPostData();
                 finish();
-                startActivity(new Intent(CompleteProfilActitvity.this, HomeActivity.class));
+                startActivity(new Intent(InsertContentActivity.this, MainActivity.class));
 
             }
         }
+
     }
 
-    private void sendUserData() {
+    private void sendPostData() {
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         //Get "User UID" fromfirebase > Authentication > Users
         DatabaseReference databaseReference = firebaseDatabase.getReference(auth.getUid());
-        StorageReference imagereference = storageReference.child("ImagesUser").child(auth.getUid()).child("Profil pic");
+        StorageReference imagereference = storageReference.child("ImagesPost").child(auth.getUid()).child("Post pic");
         UploadTask uploadTask = imagereference.putFile(imagePath);
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(CompleteProfilActitvity.this, "Error : Upload foto Profil", Toast.LENGTH_SHORT).show();
+                Toast.makeText(InsertContentActivity.this, "Error : Upload foto Post", Toast.LENGTH_SHORT).show();
             }
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Toast.makeText(CompleteProfilActitvity.this, "Berhasil Upload foto profil", Toast.LENGTH_SHORT).show();
+                Toast.makeText(InsertContentActivity.this, "Berhasil Upload foto Post", Toast.LENGTH_SHORT).show();
             }
         });
-
 
     }
 
     public void openSelectedProfilPicturedialod(){
 
-        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        androidx.appcompat.app.AlertDialog alertDialog = new androidx.appcompat.app.AlertDialog.Builder(this).create();
         TextView title = new TextView(this);
-        title.setText("Profil Picture");
+        title.setText("Post Picture");
         title.setPadding(10, 10, 10, 10);
         title.setGravity(Gravity.CENTER);
         title.setTextColor(Color.BLACK);
@@ -179,7 +199,7 @@ public class CompleteProfilActitvity extends AppCompatActivity implements View.O
         msg.setGravity(Gravity.CENTER_HORIZONTAL);
         msg.setTextColor(Color.BLACK);
         alertDialog.setView(msg);
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener() {
+        alertDialog.setButton(androidx.appcompat.app.AlertDialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
@@ -196,6 +216,4 @@ public class CompleteProfilActitvity extends AppCompatActivity implements View.O
         okBT.setLayoutParams(neutralBtnLP);
 
     }
-
-
 }

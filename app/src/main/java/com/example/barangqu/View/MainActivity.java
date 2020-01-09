@@ -1,4 +1,4 @@
-package com.example.barangqu;
+package com.example.barangqu.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.barangqu.Model.UserInformation;
+import com.example.barangqu.R;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -76,9 +77,17 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, InsertContentActivity.class));
                 finish();
-                final FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference reference = database.getReference("Posts");
-                String postid = reference.push().getKey();
+
+            }
+        });
+
+        //intent ke mypost
+        btnLihat = findViewById(R.id.btn_lihat_post);
+        btnLihat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, MypostActivity.class));
+                finish();
             }
         });
 

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".InsertContentActivity">
+    tools:context=".View.InsertContentActivity">
 
     <include
         android:id="@+id/app_bar_upload"
@@ -23,7 +23,7 @@
             android:layout_marginTop="10dp"
             android:layout_width="200dp"
             android:layout_height="180dp"
-            android:src="@drawable/ic_boy"/>
+            android:src="@drawable/ic_buy"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
