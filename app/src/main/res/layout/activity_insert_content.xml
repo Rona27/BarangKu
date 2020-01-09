@@ -1,9 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".InsertContentActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <include
+        android:id="@+id/app_bar_upload"
+       layout="@layout/app_bar_upload" />
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:weightSum="1"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/img_btn_barang"
+            android:layout_marginTop="10dp"
+            android:layout_width="200dp"
+            android:layout_height="180dp"
+            android:src="@drawable/ic_boy"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/edt_nama_barang"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:hint="Nama Barang"/>
+
+            <EditText
+                android:id="@+id/edt_tgl"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:hint="Tanggal"
+                android:inputType="datetime"/>
+
+            <EditText
+                android:id="@+id/edt_deskrip"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:inputType="textMultiLine"
+                android:maxLines="10"
+                android:minLines="6"
+                android:scrollbars="vertical"
+                android:hint="Deskripsi"/>
+
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_post"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:text="POST"
+        android:background="@drawable/shape_button"
+        android:layout_gravity="center"/>
+
+
+
+</LinearLayout>

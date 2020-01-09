@@ -144,10 +144,29 @@
         android:layout_centerInParent="true"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
+        <Button
+            android:id="@+id/btn_Upload"
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:scaleType="center"
+            android:background="@drawable/shape_button"
+            android:textColor="@color/colorWhite"
+            android:text="UPLOAD"/>
 
-
+        <Button
+            android:id="@+id/btn_lihat_post"
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/shape_button"
+            android:textColor="@color/colorWhite"
+            android:text="LIHAT"
+            android:scaleType="center"/>
 
     </LinearLayout>
 

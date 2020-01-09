@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private TextView tvEmail;
     private EditText edtNama;
     ImageButton btnBackHome;
+    private Button btnUpload, btnLihat;
 
 
     private GoogleApiClient mGoogleApiClient;
@@ -62,11 +63,22 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Intent Kembali ke home
         btnBackHome = findViewById(R.id.btn_back_home);
         btnBackHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, HomeActivity.class));
+                finish();
+            }
+        });
+
+        //Intent ke uload item
+        btnUpload = findViewById(R.id.btn_Upload);
+        btnUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, InsertContentActivity.class));
                 finish();
             }
         });
@@ -99,9 +111,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         storageReference.child("ImagesUser").child(auth.getUid()).child("Profil pic").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                // Using "Picasso" (http://square.github.io/picasso/) after adding the dependency in the Gradle.
-                // ".fit().centerInside()" fits the entire image into the specified area.
-                // Finally, add "READ" and "WRITE" external storage permissions in the Manifest.
+
                 Picasso.get().load(uri).fit().centerInside().into(imgProfil);
             }
         });
@@ -138,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         View alertLayout = inflater.inflate(R.layout.layout_custom_edit_nama, null);
         final EditText edtNama = alertLayout.findViewById(R.id.edt_nama);
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("Nama edit");
+        alert.setTitle("Edit Nama");
 
         alert.setView(alertLayout);
         alert.setCancelable(false);
