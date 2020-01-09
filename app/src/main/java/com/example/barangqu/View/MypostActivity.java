@@ -3,6 +3,7 @@ package com.example.barangqu.View;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.SortedList;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
@@ -28,6 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 public class MypostActivity extends AppCompatActivity {
@@ -136,26 +138,29 @@ public class MypostActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 databaseReference = firebaseDatabase.getReference().child("Post").child(auth.getUid());
                 databaseReference.removeValue();
-                firebaseStorage = FirebaseStorage.getInstance();
-                StorageReference deleteImage =firebaseStorage.getReference().child("ImagesPost").child(auth.getUid());
+
+                StorageReference deleteImage =firebaseStorage.getReference().child("ImagesPost").child(auth.getUid()).child("Post pic");
                 deleteImage.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Toast.makeText(getApplicationContext(), "Image Berhasil dihapus", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Image Berhasil dihapus", Toast.LENGTH_LONG).show();
                     }
                 });
 
-                finish();
+                startActivity(new Intent(MypostActivity.this, MainActivity.class));
+                Toast.makeText(getApplicationContext(),"Barang Sudah dkembalikan", Toast.LENGTH_LONG).show();
             }
         });
         alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
+
             }
         });
         alert.show();
     }
+
 
 
 }
