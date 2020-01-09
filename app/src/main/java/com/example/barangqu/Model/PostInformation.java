@@ -8,7 +8,7 @@ public class PostInformation {
     private String namaBarang;
     private String deskripsi;
 
-    public PostInformation(String currentTime, String namaBarang, String deskripsi){
+    public PostInformation(){
 
 
     }
@@ -24,25 +24,25 @@ public class PostInformation {
         return namaBarang;
     }
 
-    public void setNamaBarang(String namaBarang) {
-        this.namaBarang = namaBarang;
-    }
+//    public void setNamaBarang(String namaBarang) {
+//        this.namaBarang = namaBarang;
+//    }
 
     public String getDeskripsi() {
         return deskripsi;
     }
 
-    public void setDeskripsi(String deskripsi) {
-        this.deskripsi = deskripsi;
-    }
+//    public void setDeskripsi(String deskripsi) {
+//        this.deskripsi = deskripsi;
+//    }
 
     public Date getCurrentTime() {
         return currentTime;
     }
 
-    public void setCurrentTime(Date currentTime) {
-        this.currentTime = currentTime;
-    }
+//    public void setCurrentTime(Date currentTime) {
+//        this.currentTime = currentTime;
+//    }
 
 //    public Date getFormattedDate() {
 //        return formattedDate;
