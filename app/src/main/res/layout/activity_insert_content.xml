@@ -18,8 +18,8 @@
         android:weightSum="1"
         android:orientation="horizontal">
 
-        <ImageButton
-            android:id="@+id/img_btn_barang"
+        <ImageView
+            android:id="@+id/img_barang"
             android:layout_marginTop="10dp"
             android:layout_width="200dp"
             android:layout_height="180dp"
@@ -37,13 +37,6 @@
                 android:textSize="15dp"
                 android:hint="Nama Barang"/>
 
-            <EditText
-                android:id="@+id/edt_tgl"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:textSize="15dp"
-                android:hint="Tanggal"
-                android:inputType="datetime"/>
 
             <EditText
                 android:id="@+id/edt_deskrip"
@@ -66,6 +59,7 @@
     <Button
         android:id="@+id/btn_post"
         android:layout_width="130dp"
+        android:layout_marginTop="10dp"
         android:layout_height="wrap_content"
         android:text="POST"
         android:background="@drawable/shape_button"

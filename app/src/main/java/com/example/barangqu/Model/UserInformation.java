@@ -1,4 +1,4 @@
-package com.example.barangqu;
+package com.example.barangqu.Model;
 
 public class UserInformation {
 
