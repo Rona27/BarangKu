@@ -43,16 +43,22 @@
 
     </LinearLayout>
 
-    <ScrollView
+    <LinearLayout
         android:layout_margin="10dp"
         android:layout_width="match_parent"
+        android:verticalScrollbarPosition="left"
         android:layout_height="wrap_content">
 
-        <TextView
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/"
+            android:layout_weight="0.5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Barang"/>
-    </ScrollView>
+            />
+
+
+
+    </LinearLayout>
 
 
 </LinearLayout>

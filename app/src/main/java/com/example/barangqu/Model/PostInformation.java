@@ -7,6 +7,7 @@ public class PostInformation {
     private Date currentTime;
     private String namaBarang;
     private String deskripsi;
+//    private String downloadUrl;
 
     public PostInformation(){
 
@@ -17,6 +18,7 @@ public class PostInformation {
         this.currentTime = currentTime;
         this.namaBarang = namaBarang;
         this.deskripsi = deskripsi;
+//        this.downloadUrl = downloadUrl;
     }
 
 
@@ -39,6 +41,10 @@ public class PostInformation {
     public Date getCurrentTime() {
         return currentTime;
     }
+
+//    public String getDownloadUrl() {
+//        return downloadUrl;
+//    }
 
 //    public void setCurrentTime(Date currentTime) {
 //        this.currentTime = currentTime;

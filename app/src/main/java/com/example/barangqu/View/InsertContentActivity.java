@@ -16,6 +16,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -23,17 +24,22 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.barangqu.Model.PostInformation;
 import com.example.barangqu.R;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -101,6 +107,9 @@ public class InsertContentActivity extends AppCompatActivity implements View.OnC
                 postImage.setType("image/*");
                 postImage.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(postImage, "Pilih gambar."), PICK_IMAGE);
+
+
+
             }
         });
 
@@ -118,6 +127,37 @@ public class InsertContentActivity extends AppCompatActivity implements View.OnC
 
     }
 
+    private void sendPostData() {
+
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        //Get "User UID" fromfirebase > Authentication > Users
+        DatabaseReference databaseReference = firebaseDatabase.getReference(auth.getUid());
+        StorageReference imagereference = storageReference.child("ImagesPost").child(auth.getUid()).child("Post pic");
+        UploadTask uploadTask = imagereference.putFile(imagePath);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(InsertContentActivity.this, "Error : Upload foto Post", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+
+                Toast.makeText(InsertContentActivity.this, "Berhasil Upload foto Post", Toast.LENGTH_SHORT).show();
+
+
+
+
+
+            }
+
+        });
+
+
+
+    }
+
     private void postInformation(){
 
 //        Date date = new Date();
@@ -128,7 +168,7 @@ public class InsertContentActivity extends AppCompatActivity implements View.OnC
         String namaBarang = edtNamaBarang.getText().toString().trim();
         String deskripsi = edtDeskrip.getText().toString().trim();
         Date currentTime = Calendar.getInstance().getTime();
-        PostInformation postInformation = new PostInformation(currentTime,namaBarang,deskripsi);
+        PostInformation postInformation = new PostInformation(currentTime,namaBarang,deskripsi );
         FirebaseUser user = auth.getCurrentUser();
         databaseReference.child("Post").child(user.getUid()).setValue(postInformation);
         Toast.makeText(getApplicationContext(), "Informasi Post telah ditambahkan", Toast.LENGTH_LONG).show();
@@ -148,6 +188,8 @@ public class InsertContentActivity extends AppCompatActivity implements View.OnC
                 postInformation();
 
 
+
+
                 finish();
                 startActivity(new Intent(InsertContentActivity.this, MainActivity.class));
             }
@@ -163,26 +205,7 @@ public class InsertContentActivity extends AppCompatActivity implements View.OnC
 
     }
 
-    private void sendPostData() {
 
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        //Get "User UID" fromfirebase > Authentication > Users
-        DatabaseReference databaseReference = firebaseDatabase.getReference(auth.getUid());
-        StorageReference imagereference = storageReference.child("ImagesPost").child(auth.getUid()).child("Post pic");
-        UploadTask uploadTask = imagereference.putFile(imagePath);
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(InsertContentActivity.this, "Error : Upload foto Post", Toast.LENGTH_SHORT).show();
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Toast.makeText(InsertContentActivity.this, "Berhasil Upload foto Post", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-    }
 
     public void openSelectedProfilPicturedialod(){
 
