@@ -43,19 +43,38 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_margin="10dp"
+    <ImageView
+        android:id="@+id/img_post"
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
-        android:verticalScrollbarPosition="left"
-        android:layout_height="wrap_content">
+        android:layout_height="200dp"
+        android:src="@drawable/ic_buy"
+        />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/"
-            android:layout_weight="0.5"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_post_judul"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            />
+            android:text="Nama Barang yang ditemukan"
+            android:textStyle="bold"
+            android:textSize="17dp"/>
 
+        <TextView
+            android:id="@+id/tv_post_deskrip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Deskripsi barang yang ditemukan"
+            android:maxLines="20"
+            android:layout_marginTop="10dp"
+            android:textSize="15dp"
+            android:minLines="6"
+            android:scrollbars="vertical"/>
 
 
     </LinearLayout>

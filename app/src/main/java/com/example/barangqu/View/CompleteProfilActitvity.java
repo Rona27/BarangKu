@@ -128,7 +128,7 @@ public class CompleteProfilActitvity extends AppCompatActivity implements View.O
 
 
                 finish();
-                startActivity(new Intent(CompleteProfilActitvity.this, HomeActivity.class));
+                startActivity(new Intent(CompleteProfilActitvity.this, MainActivity.class));
             }
 
             else {
@@ -137,7 +137,7 @@ public class CompleteProfilActitvity extends AppCompatActivity implements View.O
                 userInformation();
                 sendUserData();
                 finish();
-                startActivity(new Intent(CompleteProfilActitvity.this, HomeActivity.class));
+                startActivity(new Intent(CompleteProfilActitvity.this, MainActivity.class));
 
             }
         }
